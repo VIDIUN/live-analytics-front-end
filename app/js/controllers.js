@@ -86,7 +86,7 @@ analyticsControllers.controller('DashboardCtrl', ['$rootScope', '$scope', '$inte
 		
 		
 		/**
-		 * @param liveOnly	fetch KalturaLive currently live (true) or all live entries (false)
+		 * @param liveOnly	fetch VidiunLive currently live (true) or all live entries (false)
 		 * @param pageNumber index of page to fetch
 		 */
 		var getEntries = function getEntries(liveOnly, pageNumber) {
@@ -517,23 +517,23 @@ analyticsControllers.controller('EntryCtrl', ['$scope', '$rootScope', '$routePar
 /**
  * General controller for report download page
  */
-analyticsControllers.controller('ExportCtrl', ['$scope', '$rootScope', '$routeParams', '$translate', 'SessionInfo', '$location', 'ReportSvc', 'KApi',
-	function($scope, $rootScope, $routeParams, $translate, SessionInfo, $location, ReportSvc, KApi ) {
+analyticsControllers.controller('ExportCtrl', ['$scope', '$rootScope', '$routeParams', '$translate', 'SessionInfo', '$location', 'ReportSvc', 'VApi',
+	function($scope, $rootScope, $routeParams, $translate, SessionInfo, $location, ReportSvc, VApi ) {
 		$rootScope.nonav = true;
 
 		SessionInfo.setServiceUrl($location.protocol() + "://" + $location.host());
 
-		KApi.setRedirectOnInvalidKS(false);
+		VApi.setRedirectOnInvalidVS(false);
 
 		var reportId = $routeParams.id;
 
 
 		/**
-		 * test the given KS
+		 * test the given VS
 		 */
-		var getSession = function getSession(ks) {
-			return ReportSvc.getSession(ks).then(function(sessionInfo){
-				if (sessionInfo.code == 'INVALID_KS') {
+		var getSession = function getSession(vs) {
+			return ReportSvc.getSession(vs).then(function(sessionInfo){
+				if (sessionInfo.code == 'INVALID_VS') {
 					$translate('export.Expired').then(function (msg) {
 						$scope.message = msg;
 					});
@@ -552,9 +552,9 @@ analyticsControllers.controller('ExportCtrl', ['$scope', '$rootScope', '$routePa
 		};
 
 		var getDownloadLink = function getDownloadLink() {
-			var url = KApi.getApiUrl();
+			var url = VApi.getApiUrl();
 			url += "/service/liveReports/action/serveReport";
-			url += "/ks/" + SessionInfo.ks;
+			url += "/vs/" + SessionInfo.vs;
 			url += "/id/" + reportId;
 			url += "/" + getDownloadName();
 			return url;
@@ -571,7 +571,7 @@ analyticsControllers.controller('ExportCtrl', ['$scope', '$rootScope', '$routePa
 			$translate('export.Verifying').then(function (msg) {
 				$scope.message = msg;
 			});
-			getSession($routeParams.ks);
+			getSession($routeParams.vs);
 		};
 
 

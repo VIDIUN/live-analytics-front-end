@@ -13,7 +13,7 @@
 
 </head>
 <body >
-<div class="kmcSubNav" ng-class="{hidden : nonav}" ng-cloak>
+<div class="vmcSubNav" ng-class="{hidden : nonav}" ng-cloak>
 	<a href="javascript:navigateToFlashAnalytics('contentDashboard')" class="btn">{{'main.Content_Reports' | translate}}</a>
 	<a href="javascript:navigateToFlashAnalytics('usersandCommunity')" class="btn">{{'main.Community_Reports' | translate}}</a>
 	<a href="javascript:navigateToFlashAnalytics('usageTabTitle')" class="btn">{{'main.Storage_Reports' | translate}}</a>
@@ -33,9 +33,9 @@
 		var oHead = document.getElementsByTagName('head').item(0);
 		var oScript= document.createElement("script");
 		oScript.type = "text/javascript";
-		var pid = window.parent.kmc.vars.partner_id;
-		var uiconfid = window.parent.kmc.vars.liveanalytics.player_id;
-		oScript.src=window.location.protocol + "//" + window.parent.kmc.vars.cdn_host + "/p/"+pid+"/sp/"+pid+"00/embedIframeJs/uiconf_id/"+uiconfid+"/partner_id/"+pid;
+		var pid = window.parent.vmc.vars.partner_id;
+		var uiconfid = window.parent.vmc.vars.liveanalytics.player_id;
+		oScript.src=window.location.protocol + "//" + window.parent.vmc.vars.cdn_host + "/p/"+pid+"/sp/"+pid+"00/embedIframeJs/uiconf_id/"+uiconfid+"/partner_id/"+pid;
 		oScript.onload = plrCallback;
 		oHead.appendChild( oScript);
 		

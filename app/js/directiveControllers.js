@@ -5,9 +5,9 @@
 var analyticsControllers = angular.module('analyticsControllers'); // get, don't create!!
 
 /**
- * controller for KDP on entry page
+ * controller for VDP on entry page
  */
-analyticsControllers.controller('KPlayerController', ['$scope', '$attrs', '$interval', 'EntrySvc', 'SessionInfo',
+analyticsControllers.controller('VPlayerController', ['$scope', '$attrs', '$interval', 'EntrySvc', 'SessionInfo',
     function($scope, $attrs, $interval, EntrySvc, SessionInfo) {
 		var self = this;
 		this.playerElement = null;
@@ -55,12 +55,12 @@ analyticsControllers.controller('KPlayerController', ['$scope', '$attrs', '$inte
 
 
   		$scope.$on('gotoTime', function (event, time) {
-			var kdp = angular.element('#kplayer')[0];
-			if (self.canSeek && kdp) {
+			var vdp = angular.element('#vplayer')[0];
+			if (self.canSeek && vdp) {
 				// translate timestamp to entry time, go to correct time.
 				var playerTime = self.getPlayerTime(time, $scope.entry.firstBroadcast);
 				if (playerTime < $scope.entry.duration) {
-					kdp.sendNotification("doSeek", playerTime);
+					vdp.sendNotification("doSeek", playerTime);
 				}
 			}
   		});
@@ -68,13 +68,13 @@ analyticsControllers.controller('KPlayerController', ['$scope', '$attrs', '$inte
 
   		$scope.$watch('playerEntryId', function( value ) {
   			function embedNow() {
-  				kWidget.embed({
-  					"targetId": "kplayer",
+  				vWidget.embed({
+  					"targetId": "vplayer",
   					"wid": "_" + $scope.pid,
   					"uiconf_id": $scope.uiconfId,
   					"entry_id": value,
   					"flashvars": {
-						"ks": SessionInfo.ks,
+						"vs": SessionInfo.vs,
   						"streamerType": "auto"
   					}
   				});

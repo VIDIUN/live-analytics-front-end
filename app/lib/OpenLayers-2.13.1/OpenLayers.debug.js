@@ -46270,7 +46270,7 @@ OpenLayers.Format.WCSGetCoverage = OpenLayers.Class(OpenLayers.Format.XML, {
 
 });
 /* ======================================================================
-    OpenLayers/Format/KML.js
+    OpenLayers/Format/VML.js
    ====================================================================== */
 
 /* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
@@ -46291,29 +46291,29 @@ OpenLayers.Format.WCSGetCoverage = OpenLayers.Class(OpenLayers.Format.XML, {
  */
 
 /**
- * Class: OpenLayers.Format.KML
- * Read/Write KML. Create a new instance with the <OpenLayers.Format.KML>
+ * Class: OpenLayers.Format.VML
+ * Read/Write VML. Create a new instance with the <OpenLayers.Format.VML>
  *     constructor. 
  * 
  * Inherits from:
  *  - <OpenLayers.Format.XML>
  */
-OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
+OpenLayers.Format.VML = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /**
      * Property: namespaces
      * {Object} Mapping of namespace aliases to namespace URIs.
      */
     namespaces: {
-        kml: "http://www.opengis.net/kml/2.2",
-        gx: "http://www.google.com/kml/ext/2.2"
+        vml: "http://www.opengis.net/vml/2.2",
+        gx: "http://www.google.com/vml/ext/2.2"
     },
 
     /**
      * APIProperty: kmlns
-     * {String} KML Namespace to use. Defaults to 2.0 namespace.
+     * {String} VML Namespace to use. Defaults to 2.0 namespace.
      */
-    kmlns: "http://earth.google.com/kml/2.0",
+    kmlns: "http://earth.google.com/vml/2.0",
     
     /** 
      * APIProperty: placemarksDesc
@@ -46337,7 +46337,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /**
      * APIProperty: extractAttributes
-     * {Boolean} Extract attributes from KML.  Default is true.
+     * {Boolean} Extract attributes from VML.  Default is true.
      *           Extracting styleUrls requires this to be set to true
      *           Note that currently only Data and SimpleData 
      *           elements are handled.
@@ -46360,7 +46360,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /**
      * Property: extractStyles
-     * {Boolean} Extract styles from KML.  Default is false.
+     * {Boolean} Extract styles from VML.  Default is false.
      *           Extracting styleUrls also requires extractAttributes to be
      *           set to true
      */
@@ -46388,7 +46388,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /**
      * Property: internalns
-     * {String} KML Namespace to use -- defaults to the namespace of the
+     * {String} VML Namespace to use -- defaults to the namespace of the
      *     Placemark node being parsed, but falls back to kmlns. 
      */
     internalns: null,
@@ -46415,21 +46415,21 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Property: fetched
-     * {Object} Storage of KML URLs that have been fetched before
+     * {Object} Storage of VML URLs that have been fetched before
      *     in order to prevent reloading them.
      */
     fetched: null,
 
     /**
      * APIProperty: maxDepth
-     * {Integer} Maximum depth for recursive loading external KML URLs 
+     * {Integer} Maximum depth for recursive loading external VML URLs 
      *           Defaults to 0: do no external fetching
      */
     maxDepth: 0,
 
     /**
-     * Constructor: OpenLayers.Format.KML
-     * Create a new parser for KML.
+     * Constructor: OpenLayers.Format.VML
+     * Create a new parser for VML.
      *
      * Parameters:
      * options - {Object} An optional object whose properties will be set on
@@ -46446,7 +46446,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
             kmlIconPalette: (/root:\/\/icons\/palette-(\d+)(\.\w+)/),
             straightBracket: (/\$\[(.*?)\]/g)
         };
-        // KML coordinates are always in longlat WGS84
+        // VML coordinates are always in longlat WGS84
         this.externalProjection = new OpenLayers.Projection("EPSG:4326");
 
         OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
@@ -46537,7 +46537,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: parseLinks
-     * Finds URLs of linked KML documents and fetches them
+     * Finds URLs of linked VML documents and fetches them
      * 
      * Parameters: 
      * nodes   - {Array} of {DOMElement} data to read/parse.
@@ -46606,11 +46606,11 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: parseKmlColor
-     * Parses a kml color (in 'aabbggrr' format) and returns the corresponding 
+     * Parses a vml color (in 'aabbggrr' format) and returns the corresponding 
      * color and opacity or null if the color is invalid.
      *
      * Parameters: 
-     * kmlColor - {String} a kml formated color
+     * kmlColor - {String} a vml formated color
      *
      * Returns:
      * {Object}
@@ -46709,7 +46709,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                             // Settings for Google specific icons that are 64x64
                             // We set the width and height to 64 and halve the
                             // scale to prevent icons from being too big
-                            var google = "http://maps.google.com/mapfiles/kml";
+                            var google = "http://maps.google.com/mapfiles/vml";
                             if (OpenLayers.String.startsWith(
                                                  href, google) && !w && !h) {
                                 w = 64;
@@ -46750,7 +46750,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                                 var posY = y ? (7 - y/32) : 7;
 
                                 var pos = posY * 8 + posX;
-                                href = "http://maps.google.com/mapfiles/kml/pal" 
+                                href = "http://maps.google.com/mapfiles/vml/pal" 
                                      + palette + "/icon" + pos + file_extension;
                             }
 
@@ -46949,7 +46949,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      *     from the parent.
      */
     readers: {
-        "kml": {
+        "vml": {
             "when": function(node, container) {
                 container.whens.push(OpenLayers.Date.parse(
                     this.getChildValue(node)
@@ -46973,8 +46973,8 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                     for (var i=0, ii=this.trackAttributes.length; i<ii; ++i) {
                         name = this.trackAttributes[i];
                         obj.attributes[name] = [];
-                        if (!(name in this.readers.kml)) {
-                            this.readers.kml[name] = this.readers.kml._trackPointAttribute;
+                        if (!(name in this.readers.vml)) {
+                            this.readers.vml[name] = this.readers.vml._trackPointAttribute;
                         }
                     }
                 }
@@ -47040,7 +47040,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
     
     /**
      * Method: parseFeature
-     * This function is the core of the KML parsing code in OpenLayers.
+     * This function is the core of the VML parsing code in OpenLayers.
      *     It creates the geometries that are then attached to the returned
      *     feature, and calls parseAttributes() to get attribute data out.
      *
@@ -47140,11 +47140,11 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         
         /**
          * Method: parseGeometry.point
-         * Given a KML node representing a point geometry, create an OpenLayers
+         * Given a VML node representing a point geometry, create an OpenLayers
          *     point geometry.
          *
          * Parameters:
-         * node - {DOMElement} A KML Point node.
+         * node - {DOMElement} A VML Point node.
          *
          * Returns:
          * {<OpenLayers.Geometry.Point>} A point geometry.
@@ -47175,11 +47175,11 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         
         /**
          * Method: parseGeometry.linestring
-         * Given a KML node representing a linestring geometry, create an
+         * Given a VML node representing a linestring geometry, create an
          *     OpenLayers linestring geometry.
          *
          * Parameters:
-         * node - {DOMElement} A KML LineString node.
+         * node - {DOMElement} A VML LineString node.
          *
          * Returns:
          * {<OpenLayers.Geometry.LineString>} A linestring geometry.
@@ -47230,11 +47230,11 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         
         /**
          * Method: parseGeometry.polygon
-         * Given a KML node representing a polygon geometry, create an
+         * Given a VML node representing a polygon geometry, create an
          *     OpenLayers polygon geometry.
          *
          * Parameters:
-         * node - {DOMElement} A KML Polygon node.
+         * node - {DOMElement} A VML Polygon node.
          *
          * Returns:
          * {<OpenLayers.Geometry.Polygon>} A polygon geometry.
@@ -47262,11 +47262,11 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         
         /**
          * Method: parseGeometry.multigeometry
-         * Given a KML node representing a multigeometry, create an
+         * Given a VML node representing a multigeometry, create an
          *     OpenLayers geometry collection.
          *
          * Parameters:
-         * node - {DOMElement} A KML MultiGeometry node.
+         * node - {DOMElement} A VML MultiGeometry node.
          *
          * Returns:
          * {<OpenLayers.Geometry.Collection>} A geometry collection.
@@ -47353,8 +47353,8 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: parseExtendedData
-     * Parse ExtendedData from KML. Limited support for schemas/datatypes.
-     *     See http://code.google.com/apis/kml/documentation/kmlreference.html#extendeddata
+     * Parse ExtendedData from VML. Limited support for schemas/datatypes.
+     *     See http://code.google.com/apis/vml/documentation/kmlreference.html#extendeddata
      *     for more information on extendeddata.
      */
     parseExtendedData: function(node) {
@@ -47428,24 +47428,24 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * features - {Array(<OpenLayers.Feature.Vector>)} An array of features.
      *
      * Returns:
-     * {String} A KML string.
+     * {String} A VML string.
      */
     write: function(features) {
         if(!(OpenLayers.Util.isArray(features))) {
             features = [features];
         }
-        var kml = this.createElementNS(this.kmlns, "kml");
+        var vml = this.createElementNS(this.kmlns, "vml");
         var folder = this.createFolderXML();
         for(var i=0, len=features.length; i<len; ++i) {
             folder.appendChild(this.createPlacemarkXML(features[i]));
         }
-        kml.appendChild(folder);
-        return OpenLayers.Format.XML.prototype.write.apply(this, [kml]);
+        vml.appendChild(folder);
+        return OpenLayers.Format.XML.prototype.write.apply(this, [vml]);
     },
 
     /**
      * Method: createFolderXML
-     * Creates and returns a KML folder node
+     * Creates and returns a VML folder node
      * 
      * Returns:
      * {DOMElement}
@@ -47475,7 +47475,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: createPlacemarkXML
-     * Creates and returns a KML placemark node representing the given feature. 
+     * Creates and returns a VML placemark node representing the given feature. 
      * 
      * Parameters:
      * feature - {<OpenLayers.Feature.Vector>}
@@ -47520,7 +47520,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
     /**
      * Method: buildGeometryNode
-     * Builds and returns a KML geometry node with the given geometry.
+     * Builds and returns a VML geometry node with the given geometry.
      * 
      * Parameters:
      * geometry - {<OpenLayers.Geometry>}
@@ -47550,30 +47550,30 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
         /**
          * Method: buildGeometry.point
-         * Given an OpenLayers point geometry, create a KML point.
+         * Given an OpenLayers point geometry, create a VML point.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.Point>} A point geometry.
          *
          * Returns:
-         * {DOMElement} A KML point node.
+         * {DOMElement} A VML point node.
          */
         point: function(geometry) {
-            var kml = this.createElementNS(this.kmlns, "Point");
-            kml.appendChild(this.buildCoordinatesNode(geometry));
-            return kml;
+            var vml = this.createElementNS(this.kmlns, "Point");
+            vml.appendChild(this.buildCoordinatesNode(geometry));
+            return vml;
         },
         
         /**
          * Method: buildGeometry.multipoint
-         * Given an OpenLayers multipoint geometry, create a KML
+         * Given an OpenLayers multipoint geometry, create a VML
          *     GeometryCollection.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.Point>} A multipoint geometry.
          *
          * Returns:
-         * {DOMElement} A KML GeometryCollection node.
+         * {DOMElement} A VML GeometryCollection node.
          */
         multipoint: function(geometry) {
             return this.buildGeometry.collection.apply(this, [geometry]);
@@ -47581,30 +47581,30 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
         /**
          * Method: buildGeometry.linestring
-         * Given an OpenLayers linestring geometry, create a KML linestring.
+         * Given an OpenLayers linestring geometry, create a VML linestring.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.LineString>} A linestring geometry.
          *
          * Returns:
-         * {DOMElement} A KML linestring node.
+         * {DOMElement} A VML linestring node.
          */
         linestring: function(geometry) {
-            var kml = this.createElementNS(this.kmlns, "LineString");
-            kml.appendChild(this.buildCoordinatesNode(geometry));
-            return kml;
+            var vml = this.createElementNS(this.kmlns, "LineString");
+            vml.appendChild(this.buildCoordinatesNode(geometry));
+            return vml;
         },
         
         /**
          * Method: buildGeometry.multilinestring
-         * Given an OpenLayers multilinestring geometry, create a KML
+         * Given an OpenLayers multilinestring geometry, create a VML
          *     GeometryCollection.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.Point>} A multilinestring geometry.
          *
          * Returns:
-         * {DOMElement} A KML GeometryCollection node.
+         * {DOMElement} A VML GeometryCollection node.
          */
         multilinestring: function(geometry) {
             return this.buildGeometry.collection.apply(this, [geometry]);
@@ -47612,32 +47612,32 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
         /**
          * Method: buildGeometry.linearring
-         * Given an OpenLayers linearring geometry, create a KML linearring.
+         * Given an OpenLayers linearring geometry, create a VML linearring.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.LinearRing>} A linearring geometry.
          *
          * Returns:
-         * {DOMElement} A KML linearring node.
+         * {DOMElement} A VML linearring node.
          */
         linearring: function(geometry) {
-            var kml = this.createElementNS(this.kmlns, "LinearRing");
-            kml.appendChild(this.buildCoordinatesNode(geometry));
-            return kml;
+            var vml = this.createElementNS(this.kmlns, "LinearRing");
+            vml.appendChild(this.buildCoordinatesNode(geometry));
+            return vml;
         },
         
         /**
          * Method: buildGeometry.polygon
-         * Given an OpenLayers polygon geometry, create a KML polygon.
+         * Given an OpenLayers polygon geometry, create a VML polygon.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.Polygon>} A polygon geometry.
          *
          * Returns:
-         * {DOMElement} A KML polygon node.
+         * {DOMElement} A VML polygon node.
          */
         polygon: function(geometry) {
-            var kml = this.createElementNS(this.kmlns, "Polygon");
+            var vml = this.createElementNS(this.kmlns, "Polygon");
             var rings = geometry.components;
             var ringMember, ringGeom, type;
             for(var i=0, len=rings.length; i<len; ++i) {
@@ -47646,21 +47646,21 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
                 ringGeom = this.buildGeometry.linearring.apply(this,
                                                                [rings[i]]);
                 ringMember.appendChild(ringGeom);
-                kml.appendChild(ringMember);
+                vml.appendChild(ringMember);
             }
-            return kml;
+            return vml;
         },
         
         /**
          * Method: buildGeometry.multipolygon
-         * Given an OpenLayers multipolygon geometry, create a KML
+         * Given an OpenLayers multipolygon geometry, create a VML
          *     GeometryCollection.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.Point>} A multipolygon geometry.
          *
          * Returns:
-         * {DOMElement} A KML GeometryCollection node.
+         * {DOMElement} A VML GeometryCollection node.
          */
         multipolygon: function(geometry) {
             return this.buildGeometry.collection.apply(this, [geometry]);
@@ -47668,31 +47668,31 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
 
         /**
          * Method: buildGeometry.collection
-         * Given an OpenLayers geometry collection, create a KML MultiGeometry.
+         * Given an OpenLayers geometry collection, create a VML MultiGeometry.
          *
          * Parameters:
          * geometry - {<OpenLayers.Geometry.Collection>} A geometry collection.
          *
          * Returns:
-         * {DOMElement} A KML MultiGeometry node.
+         * {DOMElement} A VML MultiGeometry node.
          */
         collection: function(geometry) {
-            var kml = this.createElementNS(this.kmlns, "MultiGeometry");
+            var vml = this.createElementNS(this.kmlns, "MultiGeometry");
             var child;
             for(var i=0, len=geometry.components.length; i<len; ++i) {
                 child = this.buildGeometryNode.apply(this,
                                                      [geometry.components[i]]);
                 if(child) {
-                    kml.appendChild(child);
+                    vml.appendChild(child);
                 }
             }
-            return kml;
+            return vml;
         }
     },
 
     /**
      * Method: buildCoordinatesNode
-     * Builds and returns the KML coordinates node with the given geometry
+     * Builds and returns the VML coordinates node with the given geometry
      * <coordinates>...</coordinates>
      * 
      * Parameters:
@@ -47752,7 +47752,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
      * attributes - {Object}
      *
      * Returns
-     * {DOMElement} A KML ExtendedData node or {null} if no attributes.
+     * {DOMElement} A VML ExtendedData node or {null} if no attributes.
      */
     buildExtendedData: function(attributes) {
         var extendedData = this.createElementNS(this.kmlns, "ExtendedData");
@@ -47788,7 +47788,7 @@ OpenLayers.Format.KML = OpenLayers.Class(OpenLayers.Format.XML, {
         }
     },
     
-    CLASS_NAME: "OpenLayers.Format.KML" 
+    CLASS_NAME: "OpenLayers.Format.VML" 
 });
 /* ======================================================================
     OpenLayers/Format/WMSCapabilities.js
@@ -51734,12 +51734,12 @@ OpenLayers.Format.Context = OpenLayers.Class(OpenLayers.Format.XML.VersionedOGC,
                 layerContext.title || layerContext.name,
                 options
             );
-        } else if (service == OpenLayers.Format.Context.serviceTypes.KML) {
+        } else if (service == OpenLayers.Format.Context.serviceTypes.VML) {
             // use a vector layer with an HTTP Protcol and a Fixed strategy
             options.strategies = [new OpenLayers.Strategy.Fixed()];
             options.protocol = new OpenLayers.Protocol.HTTP({
                 url: layerContext.url, 
-                format: new OpenLayers.Format.KML()
+                format: new OpenLayers.Format.VML()
             });
             layer = new OpenLayers.Layer.Vector(
                 layerContext.title || layerContext.name,
@@ -51757,7 +51757,7 @@ OpenLayers.Format.Context = OpenLayers.Class(OpenLayers.Format.XML.VersionedOGC,
                 options
             );
         } else if (layerContext.features) {
-            // inline GML or KML features
+            // inline GML or VML features
             layer = new OpenLayers.Layer.Vector(
                 layerContext.title || layerContext.name,
                 options
@@ -51884,7 +51884,7 @@ OpenLayers.Format.Context.serviceTypes = {
     "GML": "urn:ogc:serviceType:GML",
     "SLD": "urn:ogc:serviceType:SLD",
     "FES": "urn:ogc:serviceType:FES",
-    "KML": "urn:ogc:serviceType:KML"
+    "VML": "urn:ogc:serviceType:VML"
 };
 /* ======================================================================
     OpenLayers/Format/WMC.js
@@ -58223,7 +58223,7 @@ OpenLayers.Format.OWSContext = OpenLayers.Class(OpenLayers.Format.Context,{
 
 /**
  * @requires OpenLayers/Format/XML.js
- * @requires OpenLayers/Format/KML.js
+ * @requires OpenLayers/Format/VML.js
  * @requires OpenLayers/Format/GML.js
  * @requires OpenLayers/Format/GML/v2.js
  * @requires OpenLayers/Format/SLD/v1_0_0.js
@@ -58247,7 +58247,7 @@ OpenLayers.Format.OWSContext.v0_3_1 = OpenLayers.Class(OpenLayers.Format.XML, {
     namespaces: {
         owc: "http://www.opengis.net/ows-context",
         gml: "http://www.opengis.net/gml",
-        kml: "http://www.opengis.net/kml/2.2",
+        vml: "http://www.opengis.net/vml/2.2",
         ogc: "http://www.opengis.net/ogc",
         ows: "http://www.opengis.net/ows",
         sld: "http://www.opengis.net/sld",
@@ -58493,10 +58493,10 @@ OpenLayers.Format.OWSContext.v0_3_1 = OpenLayers.Class(OpenLayers.Format.XML, {
      *     from the parent.
      */
     readers: {
-        "kml": {
+        "vml": {
             "Document": function(node, obj) {
-                obj.features = new OpenLayers.Format.KML(
-                    {kmlns: this.namespaces.kml, 
+                obj.features = new OpenLayers.Format.VML(
+                    {kmlns: this.namespaces.vml, 
                         extractStyles: true}).read(node);
             }
         },
@@ -58733,9 +58733,9 @@ OpenLayers.Format.OWSContext.v0_3_1 = OpenLayers.Class(OpenLayers.Format.XML, {
                             if (layer.protocol.format instanceof OpenLayers.Format.GML) {
                                 layer.protocol.format.version = "2.1.2";
                                 node = this.writeNode("_GML", layer);
-                            } else if (layer.protocol.format instanceof OpenLayers.Format.KML) {
+                            } else if (layer.protocol.format instanceof OpenLayers.Format.VML) {
                                 layer.protocol.format.version = "2.2";
-                                node = this.writeNode("_KML", layer);
+                                node = this.writeNode("_VML", layer);
                             }
                         } else {
                             // write out as inline GML since we have no idea
@@ -58786,11 +58786,11 @@ OpenLayers.Format.OWSContext.v0_3_1 = OpenLayers.Class(OpenLayers.Format.XML, {
                     layer.protocol.format.version}, node);
                 return node;
             },
-            "_KML": function(layer) {
+            "_VML": function(layer) {
                 var node = this.createElementNSPlus("Layer");
                 this.writeNode("ows:Title", layer.name, node);
                 this.writeNode("Server", {service: 
-                    OpenLayers.Format.Context.serviceTypes.KML,
+                    OpenLayers.Format.Context.serviceTypes.VML,
                     version: layer.protocol.format.version, url: 
                     layer.protocol.url}, node);
                 return node;

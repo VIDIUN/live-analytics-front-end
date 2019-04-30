@@ -1,6 +1,6 @@
-Rickshaw.namespace('KTime_Local');
+Rickshaw.namespace('VTime_Local');
 
-KTime_Local = function() {
+VTime_Local = function() {
 
 	var self = this;
 

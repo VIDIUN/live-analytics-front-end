@@ -9,7 +9,7 @@ analyticsServices.factory('SessionInfo',
 		['$location',
 		 	function SessionInfoFactory($location) {
 		 		var sessionInfo = {};
-		 		sessionInfo.ks = '';
+		 		sessionInfo.vs = '';
 		 		sessionInfo.pid = '';
 		 		sessionInfo.uiconfid = '';
 				sessionInfo.map_urls = [
@@ -19,8 +19,8 @@ analyticsServices.factory('SessionInfo',
 					      ];
 				sessionInfo.map_zoom_levels = 10;
 		 		
-		 		sessionInfo.setKs = function setKs(value) {
-		 			sessionInfo.ks = value;
+		 		sessionInfo.setVs = function setVs(value) {
+		 			sessionInfo.vs = value;
 		 		};
 		 		sessionInfo.setPid = function setPid(value) {
 		 			sessionInfo.pid = value;
@@ -40,21 +40,21 @@ analyticsServices.factory('SessionInfo',
 
 
 		 		try {
-	                var kmc = window.parent.kmc;
-	                if (kmc && kmc.vars) {
-	                    if (kmc.vars.ks)
-	                        sessionInfo.ks = kmc.vars.ks;
-	                    if (kmc.vars.partner_id)
-	                    	sessionInfo.pid = kmc.vars.partner_id;
-	                    if (kmc.vars.service_url) 
-	                    	sessionInfo.service_url = kmc.vars.service_url;
-	                    if (kmc.vars.liveanalytics) {
-							sessionInfo.uiconfid = kmc.vars.liveanalytics.player_id;
-							if (kmc.vars.liveanalytics.map_urls) {
-								sessionInfo.map_urls = kmc.vars.liveanalytics.map_urls;
+	                var vmc = window.parent.vmc;
+	                if (vmc && vmc.vars) {
+	                    if (vmc.vars.vs)
+	                        sessionInfo.vs = vmc.vars.vs;
+	                    if (vmc.vars.partner_id)
+	                    	sessionInfo.pid = vmc.vars.partner_id;
+	                    if (vmc.vars.service_url) 
+	                    	sessionInfo.service_url = vmc.vars.service_url;
+	                    if (vmc.vars.liveanalytics) {
+							sessionInfo.uiconfid = vmc.vars.liveanalytics.player_id;
+							if (vmc.vars.liveanalytics.map_urls) {
+								sessionInfo.map_urls = vmc.vars.liveanalytics.map_urls;
 							}
-							if (kmc.vars.liveanalytics.map_zoom_levels) {
-								var n = parseInt(kmc.vars.liveanalytics.map_zoom_levels);
+							if (vmc.vars.liveanalytics.map_zoom_levels) {
+								var n = parseInt(vmc.vars.liveanalytics.map_zoom_levels);
 								if (n > 0) {
 									sessionInfo.map_zoom_levels = n;
 								}
@@ -64,10 +64,10 @@ analyticsServices.factory('SessionInfo',
 
 	                }
 	            } catch (e) {
-	                console.log('Could not locate parent.kmc: ' + e);
+	                console.log('Could not locate parent.vmc: ' + e);
 	            }
 	            
-	       /*     if (!sessionInfo.ks) { //navigate to login
+	       /*     if (!sessionInfo.vs) { //navigate to login
 	                $location.path("/login");
 	            } */
 	            
@@ -77,21 +77,21 @@ analyticsServices.factory('SessionInfo',
 
 		
 		
-analyticsServices.factory('KApi',
+analyticsServices.factory('VApi',
 		['$http', '$q', '$location', 'SessionInfo',
-		 	function KApiFactory ($http, $q, $location, SessionInfo) {
-		 		var KApi = {};
+		 	function VApiFactory ($http, $q, $location, SessionInfo) {
+		 		var VApi = {};
 
-				KApi.redirectToLoginOnInvalidKS = true;
+				VApi.redirectToLoginOnInvalidVS = true;
 
-				KApi.setRedirectOnInvalidKS = function setRedirectOnInvalidKS(value) {
-					KApi.redirectToLoginOnInvalidKS = value;
+				VApi.setRedirectOnInvalidVS = function setRedirectOnInvalidVS(value) {
+					VApi.redirectToLoginOnInvalidVS = value;
 				}
 		 		
-		 		KApi.IE = (!!window.ActiveXObject && +(/msie\s(\d+)/i.exec(navigator.userAgent)[1])) || NaN;
+		 		VApi.IE = (!!window.ActiveXObject && +(/msie\s(\d+)/i.exec(navigator.userAgent)[1])) || NaN;
 
 
-				KApi.getApiUrl = function getApiUrl() {
+				VApi.getApiUrl = function getApiUrl() {
 					return SessionInfo.service_url + "/api_v3/index.php";
 				}
 
@@ -100,15 +100,15 @@ analyticsServices.factory('KApi',
 		 		 * @param request 	request params
 		 		 * @returns	promise object
 		 		 */
-		 		KApi.doRequest = function doRequest (request) {
+		 		VApi.doRequest = function doRequest (request) {
 		 			// Creating a deferred object
 		            var deferred = $q.defer();
 			 		// add required params
-		            request.ks = SessionInfo.ks;
+		            request.vs = SessionInfo.vs;
 		            var method = "post";
 			 		var sParams;
 			 		var params;
-			 		if (KApi.IE < 10) {
+			 		if (VApi.IE < 10) {
 	                    request['callback'] = 'JSON_CALLBACK';
 	                    request['format'] = '9';
 	                    params = request;
@@ -126,9 +126,9 @@ analyticsServices.factory('KApi',
 			 			params: params,
 			 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			 		}).success(function (data, status) {
-						if (KApi.redirectToLoginOnInvalidKS) {
-							if (data.objectType === "KalturaAPIException") {
-								if (data.code == "INVALID_KS") {
+						if (VApi.redirectToLoginOnInvalidVS) {
+							if (data.objectType === "VidiunAPIException") {
+								if (data.code == "INVALID_VS") {
 									console.log(data);
 									$location.path("/login");
 								}
@@ -159,7 +159,7 @@ analyticsServices.factory('KApi',
 		 		 * @param params
 		 		 * @returns {String}
 		 		 */
-		 		KApi.serializeParams = function serializeParams(params) {
+		 		VApi.serializeParams = function serializeParams(params) {
 		 			var s = '';
 		 			for (var key in params) {
 		 				s += '&' + key + '=' + params[key];
@@ -168,20 +168,20 @@ analyticsServices.factory('KApi',
 		 		};
 
 
-				KApi.getExportHandlerUrl = function getExportHandlerUrl() {
+				VApi.getExportHandlerUrl = function getExportHandlerUrl() {
 					var url = $location.absUrl();
 					url = url.substring(0, url.indexOf('#/'));
-					url += "#/export/[id]/[ks]";
+					url += "#/export/[id]/[vs]";
 					return url;
 				}
 		 		
-		 		return KApi;
+		 		return VApi;
 		 	}
 		]);
 
 analyticsServices.factory('DashboardSvc',
-		['KApi', '$resource', '$q',  
-		 	function DashboardSvcFactory(KApi, $resource, $q) {
+		['VApi', '$resource', '$q',  
+		 	function DashboardSvcFactory(VApi, $resource, $q) {
 		 		var DashboardSvc = {};
 
 				DashboardSvc.HOURS_AGO_IN_SEC = -129600;
@@ -198,11 +198,11 @@ analyticsServices.factory('DashboardSvc',
 		 		DashboardSvc.getDeadAggregates = function getDeadAggregates() {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'VidiunLiveReportInputFilter',
 			            'filter:fromTime': DashboardSvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
 			            //'filter:live': '0',
-			            'pager:objectType': 'KalturaFilterPager',
+			            'pager:objectType': 'VidiunFilterPager',
 			            'pager:pageIndex': '1',
 			            'pager:pageSize': DashboardSvc.pageSize,
 			            'reportType': 'PARTNER_TOTAL',
@@ -210,11 +210,11 @@ analyticsServices.factory('DashboardSvc',
 			            'action': 'getreport'
 			        };
 					
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		/**
-		 		 * get info for dashboard aggregates line - for currently live Kaltura-live entries 
+		 		 * get info for dashboard aggregates line - for currently live Vidiun-live entries 
 		 		 * @returns promise
 		 		 */
 		 		DashboardSvc.getLiveAggregates = function getLiveAggregates() {
@@ -228,33 +228,33 @@ analyticsServices.factory('DashboardSvc',
 		 					'ignoreNull': '1',
 		 					'service': 'multirequest',
 		 					// 1 - audience - now
-		 					'1:filter:objectType': 'KalturaLiveReportInputFilter',
+		 					'1:filter:objectType': 'VidiunLiveReportInputFilter',
 		 					'1:filter:fromTime': '-60',
 		 					'1:filter:toTime': '-60',
 		 					'1:filter:live': '1',
-		 					'1:pager:objectType': 'KalturaFilterPager',
+		 					'1:pager:objectType': 'VidiunFilterPager',
 		 					'1:pager:pageIndex': '1',
 		 					'1:pager:pageSize': DashboardSvc.pageSize,
 		 					'1:reportType': 'PARTNER_TOTAL',
 		 					'1:service': 'livereports',
 		 					'1:action': 'getreport',
 	 						// 2 - minutes viewed - 36 hours
-	 						'2:filter:objectType': 'KalturaLiveReportInputFilter',
+	 						'2:filter:objectType': 'VidiunLiveReportInputFilter',
 	 						'2:filter:fromTime': DashboardSvc.HOURS_AGO_IN_SEC,
 	 						'2:filter:toTime': '-2',
 	 						'2:filter:live': '1',
-	 						'2:pager:objectType': 'KalturaFilterPager',
+	 						'2:pager:objectType': 'VidiunFilterPager',
 	 						'2:pager:pageIndex': '1',
 	 						'2:pager:pageSize': DashboardSvc.pageSize,
 	 						'2:reportType': 'PARTNER_TOTAL',
 	 						'2:service': 'livereports',
 	 						'2:action': 'getreport',
  							// 3 - buffertime, bitrate - 1 minute
- 							'3:filter:objectType': 'KalturaLiveReportInputFilter',
+ 							'3:filter:objectType': 'VidiunLiveReportInputFilter',
  							'3:filter:fromTime': '-60',
  							'3:filter:toTime': '-2',
  							'3:filter:live': '1',
- 							'3:pager:objectType': 'KalturaFilterPager',
+ 							'3:pager:objectType': 'VidiunFilterPager',
  							'3:pager:pageIndex': '1',
  							'3:pager:pageSize': DashboardSvc.pageSize,
  							'3:reportType': 'PARTNER_TOTAL',
@@ -262,7 +262,7 @@ analyticsServices.factory('DashboardSvc',
  							'3:action': 'getreport'
 		 			};
 		 			
-		 			return KApi.doRequest(postData);
+		 			return VApi.doRequest(postData);
 		 		};
 		 		
 		 		
@@ -273,11 +273,11 @@ analyticsServices.factory('DashboardSvc',
 		 		DashboardSvc._getAllEntriesStats = function _getAllEntriesStats(pageNumber) {
 					var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'VidiunLiveReportInputFilter',
 			            'filter:orderBy': '%2Bname',
 			            'filter:fromTime': DashboardSvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
-			            'pager:objectType': 'KalturaFilterPager',
+			            'pager:objectType': 'VidiunFilterPager',
 			            'pager:pageIndex': pageNumber,
 			            'pager:pageSize': DashboardSvc.pageSize,
 			            'reportType': 'ENTRY_TOTAL',
@@ -285,7 +285,7 @@ analyticsServices.factory('DashboardSvc',
 			            'action': 'getreport'
 			        };
 					
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		/**
@@ -295,13 +295,13 @@ analyticsServices.factory('DashboardSvc',
 		 		DashboardSvc._getAllEntriesEntries = function _getAllEntriesEntries(entryIds) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveStreamEntryFilter',
+						'filter:objectType': 'VidiunLiveStreamEntryFilter',
 						'filter:idIn': entryIds,
 			            'filter:orderBy': '-createdAt',
 			            'service': 'livestream',
 			            'action': 'list'
 			        };
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		/**
@@ -315,7 +315,7 @@ analyticsServices.factory('DashboardSvc',
 		            var deferred = $q.defer();
 		            
 		            DashboardSvc._getAllEntriesStats(pageNumber).then(function (entryStats) {
-						// entryStats is KalturaLiveStatsListResponse
+						// entryStats is VidiunLiveStatsListResponse
 						var ids = '';
 						if (entryStats.totalCount > 0) {
 							entryStats.objects.forEach(function(entry) {
@@ -358,17 +358,17 @@ analyticsServices.factory('DashboardSvc',
 				DashboardSvc._getLiveEntriesEntries = function _getLiveEntriesEntries(pageNumber) {
 					var postData = {
 				            'filter:orderBy': '%2Bname',
-				            'filter:objectType': 'KalturaLiveStreamEntryFilter',
+				            'filter:objectType': 'VidiunLiveStreamEntryFilter',
 				            'filter:isLive': '1',
 				            'ignoreNull': '1',
-				            'pager:objectType': 'KalturaFilterPager',
+				            'pager:objectType': 'VidiunFilterPager',
 				            'pager:pageIndex': pageNumber,
 				            'pager:pageSize': DashboardSvc.pageSize,
 				            'service': 'livestream',
 				            'action': 'list'
 				        };
 					
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 				};
 				
 				/**
@@ -380,7 +380,7 @@ analyticsServices.factory('DashboardSvc',
 						'ignoreNull': '1',
 						'service': 'multirequest',
 						// 1 - minutes viewed - 36 hours - will have most results (entries)
-			            '1:filter:objectType': 'KalturaLiveReportInputFilter',
+			            '1:filter:objectType': 'VidiunLiveReportInputFilter',
 			            '1:filter:orderBy': '-eventTime',
 			            '1:filter:entryIds': entryIds,
 			            '1:filter:live': 1,
@@ -390,7 +390,7 @@ analyticsServices.factory('DashboardSvc',
 			            '1:service': 'livereports',
 			            '1:action': 'getreport',
 						// 2 - audience - now
-						'2:filter:objectType': 'KalturaLiveReportInputFilter',
+						'2:filter:objectType': 'VidiunLiveReportInputFilter',
 			            '2:filter:orderBy': '-eventTime',
 			            '2:filter:entryIds': entryIds,
 			            '2:filter:live': 1,
@@ -400,7 +400,7 @@ analyticsServices.factory('DashboardSvc',
 			            '2:service': 'livereports',
 			            '2:action': 'getreport',
 			            // 3 - buffertime, bitrate - 1 minute
-			            '3:filter:objectType': 'KalturaLiveReportInputFilter',
+			            '3:filter:objectType': 'VidiunLiveReportInputFilter',
 			            '3:filter:orderBy': '-eventTime',
 			            '3:filter:entryIds': entryIds,
 			            '3:filter:live': 1,
@@ -411,7 +411,7 @@ analyticsServices.factory('DashboardSvc',
 			            '3:action': 'getreport'
 			        };
 					
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 				};
 				
 				/**
@@ -432,7 +432,7 @@ analyticsServices.factory('DashboardSvc',
 							}); 
 							ids = ids.substr(0, ids.length - 1);
 							DashboardSvc._getLiveEntriesStats(ids).then(function(entryStatsMR) {
-								// entryStatsMR is MR with KalturaLiveStatsListResponse
+								// entryStatsMR is MR with VidiunLiveStatsListResponse
 								var hours = entryStatsMR[0].objects;
 								var now = entryStatsMR[1].objects; 
 								var minute = entryStatsMR[2].objects;
@@ -511,12 +511,12 @@ analyticsServices.factory('DashboardSvc',
 						'ignoreNull': '1',
 			            'service': 'livereports',
 			            'action': 'exporttocsv',
-			            'params:objectType': 'KalturaLiveReportExportParams',
+			            'params:objectType': 'VidiunLiveReportExportParams',
 			            'params:timeZoneOffset': d.getTimezoneOffset(),
-						'params:applicationUrlTemplate': KApi.getExportHandlerUrl(),
-			            'reportType': liveOnly ? '2' : '1' // KalturaLiveReportExportType.PARTNER_TOTAL_LIVE/PARTNER_TOTAL_ALL
+						'params:applicationUrlTemplate': VApi.getExportHandlerUrl(),
+			            'reportType': liveOnly ? '2' : '1' // VidiunLiveReportExportType.PARTNER_TOTAL_LIVE/PARTNER_TOTAL_ALL
 			        };
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		return DashboardSvc;
@@ -525,8 +525,8 @@ analyticsServices.factory('DashboardSvc',
 
 
 analyticsServices.factory('EntrySvc',
-		['KApi', '$resource', '$q', 
-		 	function EntrySvcFactory(KApi, $resource, $q) {
+		['VApi', '$resource', '$q', 
+		 	function EntrySvcFactory(VApi, $resource, $q) {
 		 		var EntrySvc = {};
 
 				EntrySvc.HOURS_AGO_IN_SEC = -129600;
@@ -556,25 +556,25 @@ analyticsServices.factory('EntrySvc',
 				            '4:protocol': 'hdnetworkmanifest'
 				        };
 					
-		 			KApi.doRequest(postData).then(function (mr) {
+		 			VApi.doRequest(postData).then(function (mr) {
 						// the last 3 results are all current optional protocols.
-						if (mr[0].objectType != "KalturaAPIException") {
+						if (mr[0].objectType != "VidiunAPIException") {
 							if (mr[0].sourceType == 31) {
-								// Kaltura_Client_Enum_SourceType.AKAMAI_UNIVERSAL_LIVE
+								// Vidiun_Client_Enum_SourceType.AKAMAI_UNIVERSAL_LIVE
 								var livehdnetwork = true;
-								if (!mr[3] || mr[3].objectType == "KalturaAPIException") {
+								if (!mr[3] || mr[3].objectType == "VidiunAPIException") {
 									livehdnetwork = false;
 								}
 								mr[0].isLive = livehdnetwork;
 							}
 							else if (mr[0].sourceType == 32) {
-								// Kaltura_Client_Enum_SourceType.LIVE_STREAM
+								// Vidiun_Client_Enum_SourceType.LIVE_STREAM
 								var livehds = true;
-								if (!mr[1] || mr[1].objectType == "KalturaAPIException") {
+								if (!mr[1] || mr[1].objectType == "VidiunAPIException") {
 									livehds = false;
 								}
 								var livehls = true;
-								if (!mr[2] || mr[2].objectType == "KalturaAPIException") {
+								if (!mr[2] || mr[2].objectType == "VidiunAPIException") {
 									livehls = false;
 								}
 								mr[0].isLive = livehds || livehls;
@@ -594,12 +594,12 @@ analyticsServices.factory('EntrySvc',
 		 		/**
 		 		 * get aggregated stats data for this entry as a dead-now entry
 		 		 * @param entryId
-		 		 * @returns KalturaEntryLiveStats 
+		 		 * @returns VidiunEntryLiveStats 
 		 		 */
 		 		EntrySvc.getDeadAggregates = function getDeadAggregates(entryId) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'VidiunLiveReportInputFilter',
 						'filter:fromTime': EntrySvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
 			            'filter:entryIds': entryId,
@@ -609,14 +609,14 @@ analyticsServices.factory('EntrySvc',
 			            'action': 'getreport'
 			        };
 		 			
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		
 		 		/**
 		 		 * get aggregated stats data for this entry as a live-now entry
 		 		 * @param entryId
-		 		 * @returns KalturaEntryLiveStats 
+		 		 * @returns VidiunEntryLiveStats 
 		 		 */
 		 		EntrySvc.getLiveAggregates = function getLiveAggregates(entryId) {
 		 			/* MR:
@@ -629,7 +629,7 @@ analyticsServices.factory('EntrySvc',
 		 					'ignoreNull': '1',
 		 					'service': 'multirequest',
 		 					// 1 - audience - now
-		 					'1:filter:objectType': 'KalturaLiveReportInputFilter',
+		 					'1:filter:objectType': 'VidiunLiveReportInputFilter',
 		 					'1:filter:fromTime': '-60',
 		 					'1:filter:toTime': '-60',
 		 					'1:filter:live': '1',
@@ -638,7 +638,7 @@ analyticsServices.factory('EntrySvc',
 		 					'1:service': 'livereports',
 		 					'1:action': 'getreport',
 	 						// 2 - minutes viewed - 36 hours
-	 						'2:filter:objectType': 'KalturaLiveReportInputFilter',
+	 						'2:filter:objectType': 'VidiunLiveReportInputFilter',
 	 						'2:filter:fromTime': EntrySvc.HOURS_AGO_IN_SEC,
 	 						'2:filter:toTime': '-2',
 	 						'2:filter:live': '1',
@@ -647,7 +647,7 @@ analyticsServices.factory('EntrySvc',
 	 						'2:service': 'livereports',
 	 						'2:action': 'getreport',
  							// 3 - buffertime, bitrate - 1 minute
- 							'3:filter:objectType': 'KalturaLiveReportInputFilter',
+ 							'3:filter:objectType': 'VidiunLiveReportInputFilter',
  							'3:filter:fromTime': '-60',
  							'3:filter:toTime': '-2',
  							'3:filter:live': '1',
@@ -657,7 +657,7 @@ analyticsServices.factory('EntrySvc',
  							'3:action': 'getreport'
 		 			};
 		 			
-		 			return KApi.doRequest(postData);
+		 			return VApi.doRequest(postData);
 		 		};
 		 		
 		 		
@@ -669,11 +669,11 @@ analyticsServices.factory('EntrySvc',
 		 		EntrySvc.getReferrers = function getReferrers(entryId) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'VidiunLiveReportInputFilter',
 						'filter:fromTime': EntrySvc.HOURS_AGO_IN_SEC,
 			            'filter:toTime': '-2',
 			            'filter:entryIds': entryId,
-			            'pager:objectType': 'KalturaFilterPager',
+			            'pager:objectType': 'VidiunFilterPager',
 			            'pager:pageIndex': '1',
 			            'pager:pageSize': '10',
 			            'reportType': 'ENTRY_SYNDICATION_TOTAL',
@@ -681,7 +681,7 @@ analyticsServices.factory('EntrySvc',
 			            'action': 'getreport'
 			        };
 					
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		
@@ -696,7 +696,7 @@ analyticsServices.factory('EntrySvc',
 		 		EntrySvc.getGraph = function getGraph(entryId, fromDate, toDate) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'VidiunLiveReportInputFilter',
 						'filter:fromTime': fromDate,
 			            'filter:toTime': toDate,
 			            'filter:entryIds': entryId,
@@ -705,7 +705,7 @@ analyticsServices.factory('EntrySvc',
 			            'action': 'getevents'
 			        };
 					
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		
@@ -719,12 +719,12 @@ analyticsServices.factory('EntrySvc',
 		 		EntrySvc.getMap = function getMap(entryId, time) {
 		 			var postData = {
 						'ignoreNull': '1',
-						'filter:objectType': 'KalturaLiveReportInputFilter',
+						'filter:objectType': 'VidiunLiveReportInputFilter',
 						'filter:fromTime': time,
 			            'filter:toTime': time,
 			            'filter:entryIds': entryId,
-						'filter:orderBy' : '-audience', //KalturaLiveReportOrderBy.AUDIENCE_DESC
-						'pager:objectType': 'KalturaFilterPager',
+						'filter:orderBy' : '-audience', //VidiunLiveReportOrderBy.AUDIENCE_DESC
+						'pager:objectType': 'VidiunFilterPager',
 						'pager:pageIndex': '1',
 						'pager:pageSize': '1000',
 			            'reportType': 'ENTRY_GEO_TIME_LINE',
@@ -732,13 +732,13 @@ analyticsServices.factory('EntrySvc',
 			            'action': 'getreport'
 			        };
 					
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 		 		
 		 		
 		 		/**
 		 		 * trigger entry export to csv
-		 		 * @param reportType as enumerated in KalturaLiveReportExportType
+		 		 * @param reportType as enumerated in VidiunLiveReportExportType
 		 		 * @param entryId 
 		 		 */
 		 		EntrySvc.export2csv = function export2csv(reportType, entryId) {
@@ -747,14 +747,14 @@ analyticsServices.factory('EntrySvc',
 						'ignoreNull': '1',
 			            'service': 'livereports',
 			            'action': 'exporttocsv',
-			            'params:objectType': 'KalturaLiveReportExportParams',
+			            'params:objectType': 'VidiunLiveReportExportParams',
 			            'params:timeZoneOffset': d.getTimezoneOffset(),
 			            'params:entryIds': entryId,
-						'params:applicationUrlTemplate': KApi.getExportHandlerUrl(),
+						'params:applicationUrlTemplate': VApi.getExportHandlerUrl(),
 						'reportType': reportType
 
 			        };
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 		 		};
 
 
@@ -769,11 +769,11 @@ analyticsServices.factory('EntrySvc',
 						'ignoreNull': '1',
 						'service': 'cuepoint_cuepoint',
 						'action': 'list',
-						'filter:objectType': 'KalturaEventCuePointFilter',
+						'filter:objectType': 'VidiunEventCuePointFilter',
 						'filter:entryIdEqual': entryId,
 						'filter:orderBy': '%2BstartTime'
 					};
-					return KApi.doRequest(postData);
+					return VApi.doRequest(postData);
 				}
 
 				return EntrySvc;
@@ -781,25 +781,25 @@ analyticsServices.factory('EntrySvc',
 	 	]);
 
 analyticsServices.factory('ReportSvc',
-	['KApi', 'SessionInfo',
-		function ReportSvcFactory(KApi, SessionInfo) {
+	['VApi', 'SessionInfo',
+		function ReportSvcFactory(VApi, SessionInfo) {
 			var ReportSvc = {};
 
 
 			/**
 			 *
-			 * @param ks
+			 * @param vs
 			 * @returns
 			 */
-			ReportSvc.getSession = function getSession(ks) {
-				SessionInfo.setKs(ks);
+			ReportSvc.getSession = function getSession(vs) {
+				SessionInfo.setVs(vs);
 				var postData = {
 					'ignoreNull': '1',
 					'service': 'session',
 					'action': 'get'
 				};
 
-				return KApi.doRequest(postData);
+				return VApi.doRequest(postData);
 			};
 
 

@@ -21,16 +21,16 @@
 <script>
 	window.lang = 'de_DE';
 	window.parent = {};
-	window.parent.kmc = {};
-	window.parent.kmc.functions = {
+	window.parent.vmc = {};
+	window.parent.vmc.functions = {
 			expired: function() {
 				alert('login, here I come!');
 			}
 	};
 	
-	window.parent.kmc.vars = {
+	window.parent.vmc.vars = {
 
-		ks : 'YOUR_KS',
+		vs : 'YOUR_VS',
 		partner_id : 'YOUR_PID',
 		service_url : 'YOUR_SERVICE_URL',
 		cdn_host : 'YOUR_CDN_HOST',
@@ -43,7 +43,7 @@
 
 </head>
 <body >
-<div class="kmcSubNav" ng-class="{hidden : nonav}" ng-cloak >
+<div class="vmcSubNav" ng-class="{hidden : nonav}" ng-cloak >
 	<a href="javascript:navigateToFlashAnalytics('contentDashboard')" class="btn">{{'main.Content_Reports' | translate}}</a>
 	<a href="javascript:navigateToFlashAnalytics('usersandCommunity')" class="btn">{{'main.Community_Reports' | translate}}</a>
 	<a href="javascript:navigateToFlashAnalytics('usageTabTitle')" class="btn">{{'main.Storage_Reports' | translate}}</a>
@@ -59,7 +59,7 @@
 	<!-- player -->
 	<script>
 		window.playerLibLoaded = false;
-		var hash = location.hash; // /dashboard/player=your_player_id|pid=your_partner_id|ks=your_ks|svc=service_url_no_protocol|cdn=cdn_host_no_protocol
+		var hash = location.hash; // /dashboard/player=your_player_id|pid=your_partner_id|vs=your_vs|svc=service_url_no_protocol|cdn=cdn_host_no_protocol
 		ar = hash.split("#")[1].split("/");
 		if (ar.length > 2) {
 			ar = ar[2].split("|");
@@ -68,19 +68,19 @@
 				var key = ar2[0];
 				switch (key) {
 					case 'player':
-						window.parent.kmc.vars.liveanalytics.player_id = ar2[1];
+						window.parent.vmc.vars.liveanalytics.player_id = ar2[1];
 						break;
 					case 'pid':
-						window.parent.kmc.vars.partner_id = ar2[1];
+						window.parent.vmc.vars.partner_id = ar2[1];
 						break;
-					case 'ks':
-						window.parent.kmc.vars.ks = ar2[1];
+					case 'vs':
+						window.parent.vmc.vars.vs = ar2[1];
 						break;
 					case 'svc':
-						window.parent.kmc.vars.service_url = window.location.protocol + "//" + ar2[1];
+						window.parent.vmc.vars.service_url = window.location.protocol + "//" + ar2[1];
 						break;
 					case 'cdn':
-						window.parent.kmc.vars.cdn_host = ar2[1];
+						window.parent.vmc.vars.cdn_host = ar2[1];
 						break;
 
 				}
@@ -92,9 +92,9 @@
 		var oHead = document.getElementsByTagName('head').item(0);
 		var oScript= document.createElement("script");
 		oScript.type = "text/javascript";
-		var pid = window.parent.kmc.vars.partner_id;
-		var uiconfid = window.parent.kmc.vars.liveanalytics.player_id;
-		oScript.src=window.location.protocol + "//" + window.parent.kmc.vars.cdn_host + "/p/"+pid+"/sp/"+pid+"00/embedIframeJs/uiconf_id/"+uiconfid+"/partner_id/"+pid;
+		var pid = window.parent.vmc.vars.partner_id;
+		var uiconfid = window.parent.vmc.vars.liveanalytics.player_id;
+		oScript.src=window.location.protocol + "//" + window.parent.vmc.vars.cdn_host + "/p/"+pid+"/sp/"+pid+"00/embedIframeJs/uiconf_id/"+uiconfid+"/partner_id/"+pid;
 		oScript.onload = plrCallback;
 		oHead.appendChild( oScript);
 		
@@ -126,8 +126,8 @@
 	<script src="lib/rickshaw/d3.v3.js"></script>
 	<script src="lib/rickshaw/d3.layout.min.js"></script>
 
-	<script src="lib/kaltura/KHoverDetail.js"></script>
-	<script src="lib/kaltura/KTime_Local.js"></script>
+	<script src="lib/vidiun/VHoverDetail.js"></script>
+	<script src="lib/vidiun/VTime_Local.js"></script>
 	
 	<!-- openLayers maps -->
 	<script src="lib/OpenLayers-2.13.1/OpenLayers.debug.js"></script>

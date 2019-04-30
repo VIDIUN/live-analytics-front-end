@@ -5,14 +5,14 @@
 var analyticsDirectives = angular.module('analyticsDirectives', []);
 
 
-analyticsDirectives.directive('kplayer', function() {
+analyticsDirectives.directive('vplayer', function() {
 	return {
 		restrict : 'A',
-		controller: 'KPlayerController',
+		controller: 'VPlayerController',
 		replace : false,
-		template: '<div id="kplayer" class="full-width full-height"></div>',
-		link: function($scope, element, attrs, KPlayerController) {
-			KPlayerController.init(element);
+		template: '<div id="vplayer" class="full-width full-height"></div>',
+		link: function($scope, element, attrs, VPlayerController) {
+			VPlayerController.init(element);
 		}
 	};
 });

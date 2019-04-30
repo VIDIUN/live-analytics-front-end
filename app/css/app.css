@@ -8,7 +8,7 @@ body {
 	font-family: Helvetica,"Helvetica Neue",Arial,sans-serif; 
 }
 
-.kmcSubNav {
+.vmcSubNav {
     border-bottom: 2px solid #CCCCCC;
     display: block;
     height: 33px;
@@ -19,7 +19,7 @@ body {
     position:fixed;
     z-index:1005;
 }
-.kmcSubNav a {
+.vmcSubNav a {
     background: none repeat scroll 0 0 #FFFFFF;
     border-radius: 18px;
     color: #555555;
@@ -27,7 +27,7 @@ body {
     margin: 7px 0px;
     padding: 3px 9px;
 }
-.kmcSubNav a.active {
+.vmcSubNav a.active {
     background: none repeat scroll 0 0 #222222;
     color: #FFFFFF;
 }
