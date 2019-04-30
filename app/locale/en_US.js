@@ -1,5 +1,5 @@
 var en_US_trans = {
-	// aggregates - keys should match Kaltura server 
+	// aggregates - keys should match Vidiun server 
 	"audience": "Audience",
 	"audience_inc_dvr" : "Audience & DVR",
 	"plays" : "Plays",
@@ -18,7 +18,7 @@ var en_US_trans = {
 	"dashboard" : {
 		"Live_Content_36": "Live Content (in past 36 hours)",
 		"Show_All_Entries": "All Viewed Live Entries",
-		"Show_Kaltura": "Kaltura Live Now Only",
+		"Show_Vidiun": "Vidiun Live Now Only",
 		"Audience": "Audience",
 		"audience_inc_dvr" : "Audience & DVR",
 		"Plays": "Plays",
@@ -55,7 +55,7 @@ var en_US_trans = {
 	},
 	
 	"main" : {
-		// tab names (translations) should match names in KMC analytics
+		// tab names (translations) should match names in VMC analytics
 		"Content_Reports": "Content Reports",
 		"Community_Reports": "Users & Community Reports",
 		"Storage_Reports": "Bandwidth & Storage Reports",

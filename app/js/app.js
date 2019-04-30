@@ -22,12 +22,12 @@ liveAnalytics.config(['$routeProvider', '$translateProvider', function($routePro
 		templateUrl: 'partials/entry.html', 
 		controller: 'EntryCtrl'
 	});
-	$routeProvider.when('/export/:id/:ks', {
+	$routeProvider.when('/export/:id/:vs', {
 		templateUrl: 'partials/export.html',
 		controller: 'ExportCtrl'
 	});
 	$routeProvider.when('/login', {
-		template: '<script>window.parent.kmc.functions.expired();</script><div class="page container"><br/><p>invalid ks</p></div>' 
+		template: '<script>window.parent.vmc.functions.expired();</script><div class="page container"><br/><p>invalid vs</p></div>' 
 	});
 	$routeProvider.otherwise({redirectTo: '/dashboard'});
 	

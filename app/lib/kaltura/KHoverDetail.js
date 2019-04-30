@@ -1,4 +1,4 @@
-var KHoverDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
+var VHoverDetail = Rickshaw.Class.create(Rickshaw.Graph.HoverDetail, {
 				
 				initialize: function(args) {
 

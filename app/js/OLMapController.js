@@ -244,7 +244,7 @@ analyticsControllers.controller('OLMapController', ['$scope', '$attrs',  '$locat
 		
 		/**
 		 * recreate data layers on map
-		 * @param value array of KalturaGeoTimeLiveStats
+		 * @param value array of VidiunGeoTimeLiveStats
 		 */
 		this.displayData = function displayData(value) {
 			// remove existing layers
@@ -375,7 +375,7 @@ analyticsControllers.controller('OLMapController', ['$scope', '$attrs',  '$locat
 				// update range 
 				self.adjustSlider(max, time);
 			}
-			self.dvrEnabledForEntry = $scope.entry.dvrStatus == 1 // KalturaDVRStatus.ENABLED
+			self.dvrEnabledForEntry = $scope.entry.dvrStatus == 1 // VidiunDVRStatus.ENABLED
 		};
 		
 		this.timeBoundsSetHandler = function timeBoundsSetHandler(event, start, end) {

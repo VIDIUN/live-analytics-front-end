@@ -63,7 +63,7 @@ analyticsControllers.controller('RGraphController', ['$scope', '$attrs', 'EntryS
 			var xAxis = new Rickshaw.Graph.Axis.Time({
 				graph : graph,
 				ticksTreatment : 'glow',
-				timeFixture : new KTime_Local()
+				timeFixture : new VTime_Local()
 			});
 			xAxis.render();
 
@@ -74,7 +74,7 @@ analyticsControllers.controller('RGraphController', ['$scope', '$attrs', 'EntryS
 			});
 			yAxis.render();
 			
-			var hoverDetail = new KHoverDetail( {
+			var hoverDetail = new VHoverDetail( {
 			    graph: graph,
 			    formatter: function(series, x, y, formattedXValue, formattedYValue, point) {
 			    	return formattedXValue + '<br>' + series.name + ': ' + y ;
@@ -177,7 +177,7 @@ analyticsControllers.controller('RGraphController', ['$scope', '$attrs', 'EntryS
 					if (!$scope.entry.isLive) {
 						var firstBroadcast = parseInt($scope.entry.firstBroadcast, 10);
 						// trim data edges:
-						if (!isNaN(firstBroadcast)) {	// non-kaltura don't have firstBroadcast
+						if (!isNaN(firstBroadcast)) {	// non-vidiun don't have firstBroadcast
 							for (var i = 0; i < objects.audience.length; i++) {
 								if (objects.audience[i].timestamp >= firstBroadcast) {
 									break;
@@ -309,7 +309,7 @@ analyticsControllers.controller('RGraphController', ['$scope', '$attrs', 'EntryS
 		 * @param time (timestamp sec)
 		 */
 		var setupScreenHandler = function setupScreenHandler(event, time) {
-			dvrEnabledForEntry = $scope.entry.dvrStatus == 1 // KalturaDVRStatus.ENABLED
+			dvrEnabledForEntry = $scope.entry.dvrStatus == 1 // VidiunDVRStatus.ENABLED
 			if (!dvrEnabledForEntry) {
 				series.pop();
 			}
